@@ -1,0 +1,179 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: "raleway-regular";
+  src: url(../fonts/raleway-regular.woff) format("woff"),
+    url(../fonts/raleway-regular.woff2) format("woff2");
+  font-display: swap;
+}
+@font-face {
+  font-family: "raleway-bold";
+  src: url(../fonts/raleway-bold.woff) format("woff"),
+    url(../fonts/raleway-bold.woff2) format("woff2");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "raleway-semibold";
+  src: url(../fonts/raleway-semibold.woff) format("woff"),
+    url(../fonts/raleway-semibold.woff2) format("woff2");
+  font-display: swap;
+}
+
+:root {
+  --accent: 228, 10, 19;
+  --light: 255, 255, 255;
+  --primary: 255, 255, 255;
+  --secondary: 245, 245, 245;
+  --dark: 54, 54, 54;
+  --line: 223, 223, 223;
+  --alert: 180, 19, 19;
+  --success: 14, 165, 38;
+  --warning: 211, 180, 14;
+  --info: 58, 27, 248;
+  --body: 99, 99, 99;
+  --subnav: 237, 237, 237;
+}
+
+.dark {
+  --accent: 228, 10, 19;
+  --light: 64, 64, 64;
+  --primary: 13, 17, 23;
+  --secondary: 1, 4, 9;
+  --dark: 255, 255, 255;
+  --line: 48, 54, 61;
+  --alert: 180, 19, 19;
+  --success: 14, 165, 38;
+  --warning: 211, 180, 14;
+  --info: 58, 27, 248;
+  --body: 188, 188, 188;
+  --subnav: 14, 14, 14;
+}
+
+@layer base {
+  html {
+    @apply h-full dark:bg-primary;
+  }
+
+  body {
+    @apply text-body  font-regular  min-h-screen w-full;
+  }
+
+  a {
+    @apply no-underline;
+  }
+
+  ul {
+    @apply list-none;
+  }
+
+  button {
+    @apply cursor-pointer bg-transparent outline-none;
+  }
+
+  p {
+    @apply mb-1.5 text-xs text-body leading-normal;
+  }
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-bold text-dark leading-normal;
+  }
+
+  h1 {
+    @apply text-[clamp(20px,4vw,30px)] leading-none mb-2;
+  }
+
+  h2 {
+    @apply text-[clamp(18px,4vw,22px)] leading-none mb-2;
+  }
+  h3 {
+    @apply text-[clamp(16px,4vw,18px)] leading-none mb-2;
+  }
+
+  h4 {
+    @apply text-[clamp(12px,4vw,14px)] leading-none mb-2;
+  }
+
+  h5 {
+    @apply text-xs leading-none mb-2;
+  }
+
+  table {
+    @apply w-full
+  }
+  table td {
+    @apply p-1
+  }
+  table tr {
+    @apply border-b border-line
+  }
+  table thead tr {
+    @apply font-semibold 
+  }
+  table tbody tr td {
+    @apply text-sm opacity-90 py-2
+  }
+  table tbody tr {
+    @apply hover:bg-secondary hover:!bg-opacity-10
+  }
+  table tbody tr:nth-child(odd){
+    @apply bg-secondary bg-opacity-20
+  }
+
+}
+
+@layer components {
+  .table-action {
+    @apply flex gap-5 justify-end
+  }
+  .table-action button {
+    @apply relative
+  }
+  .table-action button::before{
+    @apply content-[attr(data-tooltip)] absolute -top-5 left-1/2 -translate-x-1/2 text-[10px] bg-black bg-opacity-80 text-white rounded-sm px-1.5 py-1 leading-none hidden
+  }
+  .table-action button:hover::before{
+    @apply block
+  }
+  .btn {
+    @apply bg-black rounded-md px-2 py-1.5 text-white text-sm flex gap-2 items-center border border-transparent transition-all
+  }
+  .btn-accent {
+    @apply bg-accent hover:bg-opacity-80
+  }
+  .btn-warning {
+    @apply bg-warning hover:bg-opacity-80
+  }
+  .btn-cancel {
+    @apply bg-gray-300 hover:bg-opacity-80 text-gray-800
+  }
+  .btn-alert {
+    @apply bg-alert hover:bg-opacity-80
+  }
+  .btn-info {
+    @apply bg-info hover:bg-opacity-80
+  }
+  .btn-success {
+    @apply bg-success hover:bg-opacity-80
+  }
+  .nav-link {
+    @apply flex items-center gap-3 opacity-70 hover:opacity-100 px-2 py-1.5
+  }
+  .nav-link.active {
+    @apply rounded-md bg-accent bg-opacity-5 opacity-100 text-accent
+  }
+
+  .tab-link {
+    @apply p-2
+  }
+
+  .tab-link.active {
+    @apply border-b border-accent text-accent
+  }
+}
