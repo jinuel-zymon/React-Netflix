@@ -63,6 +63,23 @@ export default {
       fill: {
         alert: "rgba(var(--alert), <alpha-value>)",
       },
+      backgroundImage: {
+        skeleton:
+          "linear-gradient(90deg, transparent, rgba(var(--primary), .8), transparent )",
+      },
+      animation: {
+        rotate: "rotate 2s linear infinite",
+        loading: "loading 1.5s ease-in infinite",
+      },
+      keyframes: {
+        rotate: {
+          "100%": { transform: "rotate(360deg)" },
+        },
+        loading: {
+          "0%": { transform: "translateX(-100%)" },
+          "100%": { transform: "translateX(100%)" },
+        },
+      }
     },
   },
   plugins: [],
