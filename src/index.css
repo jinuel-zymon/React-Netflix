@@ -227,3 +227,17 @@
     stroke-dashoffset: -110px;
   }
 }
+
+.counter {
+  -webkit-text-stroke: 6px ;
+  -webkit-text-fill-color: transparent;
+  text-stroke: 6px ;
+  -webkit-text-stroke-color: white;
+}
+
+.slick-arrow {
+  @apply -top-10 right-5
+}
+.slick-arrow.slick-prev {
+  @apply left-[calc(100%-5rem)]
+}
