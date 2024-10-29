@@ -43,7 +43,7 @@ class Movies
             $sql .= "movies_duration, ";
             $sql .= "movies_summary, ";
             $sql .= "movies_cast, ";
-            $sql .= "movies_image, ";
+            // $sql .= "movies_image, ";
             $sql .= "movies_is_active, ";
             $sql .= "movies_datetime, ";
             $sql .= "movies_created ) values ( ";
@@ -54,7 +54,7 @@ class Movies
             $sql .= ":movies_duration, ";
             $sql .= ":movies_summary, ";
             $sql .= ":movies_cast, ";
-            $sql .= ":movies_image, ";
+            // $sql .= ":movies_image, ";
             $sql .= ":movies_is_active, ";
             $sql .= ":movies_datetime, ";
             $sql .= ":movies_created ) ";
@@ -67,7 +67,7 @@ class Movies
                 "movies_duration" => $this->movies_duration,
                 "movies_summary" => $this->movies_summary,
                 "movies_cast" => $this->movies_cast,
-                "movies_image" => $this->movies_image,
+                // "movies_image" => $this->movies_image,
                 "movies_is_active" => $this->movies_is_active,
                 "movies_datetime" => $this->movies_datetime,
                 "movies_created" => $this->movies_created,
@@ -154,19 +154,25 @@ class Movies
         try {
             $sql = "update {$this->tblMovies} set ";
             $sql .= "movies_title = :movies_title, ";
-            $sql .= "movies_price = :movies_price, ";
-            $sql .= "movies_image = :movies_image, ";
-            $sql .= "movies_category = :movies_category, ";
-            $sql .= "movies_ingredients = :movies_ingredients, ";
+            $sql .= "movies_year = :movies_year, ";
+            $sql .= "movies_genre = :movies_genre, ";
+            $sql .= "movies_rating = :movies_rating, ";
+            $sql .= "movies_duration = :movies_duration, ";
+            $sql .= "movies_summary = :movies_summary, ";
+            $sql .= "movies_cast = :movies_cast, ";
+            // $sql .= "movies_image = :movies_image, ";
             $sql .= "movies_datetime = :movies_datetime ";
             $sql .= "where movies_aid = :movies_aid ";
             $query = $this->connection->prepare($sql);
             $query->execute([
                 "movies_title" => $this->movies_title,
-                "movies_price" => $this->movies_price,
-                "movies_image" => $this->movies_image,
-                "movies_category" => $this->movies_category,
-                "movies_ingredients" => $this->movies_ingredients,
+                "movies_year" => $this->movies_year,
+                "movies_genre" => $this->movies_genre,
+                "movies_rating" => $this->movies_rating,
+                "movies_duration" => $this->movies_duration,
+                "movies_summary" => $this->movies_summary,
+                "movies_cast" => $this->movies_cast,
+                // "movies_image" => $this->movies_image,
                 "movies_datetime" => $this->movies_datetime,
                 "movies_aid" => $this->movies_aid,
             ]);

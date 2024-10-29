@@ -14,7 +14,7 @@ class Database
 
         // Localhost
         $host = "localhost";
-        $dbname = "netlix_v1";
+        $dbname = "netflix_v1";
         $username = "root";
         $password = "";
 
