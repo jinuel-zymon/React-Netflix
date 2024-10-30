@@ -17,6 +17,7 @@ if (array_key_exists("moviesid", $_GET)) {
     $movies->movies_summary = checkIndex($data, "movies_summary");
     $movies->movies_cast = checkIndex($data, "movies_cast");
     $movies->movies_image = checkIndex($data, "movies_image");
+    $movies->movies_category = checkIndex($data, "movies_category");
     $movies->movies_datetime = date("Y-m-d H:i:s");
     
     $movies_title_old = strtolower($data["movies_title_old"]);

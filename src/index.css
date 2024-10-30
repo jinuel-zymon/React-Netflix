@@ -186,13 +186,19 @@
   .input-wrap input, .input-wrap textarea {
     @apply px-2 py-[4.5px] border-[2px] border-transparent rounded-md outline-none text-sm text-black focus:border-success w-full
   }
+
+  .input-wrap input:disabled, .input-wrap textarea:disabled {
+    @apply pointer-events-none opacity-40
+  }
+
   .input-wrap textarea {
     @apply h-[100px]
   }
   .input-wrap span{
     @apply absolute top-1 right-1 text-xs text-alert italic
   }
-  .input-wrap:has(.error-show) input {
+  .input-wrap:has(.error-show) input,
+  .input-wrap:has(.error-show) textarea  {
     @apply border border-accent bg-[#f19da0]
   }
   .loading-bar {

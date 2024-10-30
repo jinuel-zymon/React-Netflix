@@ -11,6 +11,7 @@ class Movies
     public $movies_summary;
     public $movies_cast;
     public $movies_image;
+    public $movies_category;
 
     public $movies_is_active;
     public $movies_datetime;
@@ -43,7 +44,8 @@ class Movies
             $sql .= "movies_duration, ";
             $sql .= "movies_summary, ";
             $sql .= "movies_cast, ";
-            // $sql .= "movies_image, ";
+            $sql .= "movies_image, ";
+            $sql .= "movies_category, ";
             $sql .= "movies_is_active, ";
             $sql .= "movies_datetime, ";
             $sql .= "movies_created ) values ( ";
@@ -54,7 +56,8 @@ class Movies
             $sql .= ":movies_duration, ";
             $sql .= ":movies_summary, ";
             $sql .= ":movies_cast, ";
-            // $sql .= ":movies_image, ";
+            $sql .= ":movies_image, ";
+            $sql .= ":movies_category, ";
             $sql .= ":movies_is_active, ";
             $sql .= ":movies_datetime, ";
             $sql .= ":movies_created ) ";
@@ -67,7 +70,8 @@ class Movies
                 "movies_duration" => $this->movies_duration,
                 "movies_summary" => $this->movies_summary,
                 "movies_cast" => $this->movies_cast,
-                // "movies_image" => $this->movies_image,
+                "movies_image" => $this->movies_image,
+                "movies_category" => $this->movies_category,
                 "movies_is_active" => $this->movies_is_active,
                 "movies_datetime" => $this->movies_datetime,
                 "movies_created" => $this->movies_created,
@@ -160,7 +164,8 @@ class Movies
             $sql .= "movies_duration = :movies_duration, ";
             $sql .= "movies_summary = :movies_summary, ";
             $sql .= "movies_cast = :movies_cast, ";
-            // $sql .= "movies_image = :movies_image, ";
+            $sql .= "movies_image = :movies_image, ";
+            $sql .= "movies_category = :movies_category, ";
             $sql .= "movies_datetime = :movies_datetime ";
             $sql .= "where movies_aid = :movies_aid ";
             $query = $this->connection->prepare($sql);
@@ -172,7 +177,8 @@ class Movies
                 "movies_duration" => $this->movies_duration,
                 "movies_summary" => $this->movies_summary,
                 "movies_cast" => $this->movies_cast,
-                // "movies_image" => $this->movies_image,
+                "movies_image" => $this->movies_image,
+                "movies_category" => $this->movies_category,
                 "movies_datetime" => $this->movies_datetime,
                 "movies_aid" => $this->movies_aid,
             ]);
