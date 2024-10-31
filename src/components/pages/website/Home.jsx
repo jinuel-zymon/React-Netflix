@@ -10,6 +10,8 @@ import Banner from './Banner';
 import MovieSlider from './MovieSlider';
 import useQueryData from '@/components/custom-hook/useQueryData';
 import SpinnerTable from '@/components/partials/spinners/SpinnerTable';
+import MovieSliderTopTen from './MovieSliderTopTen';
+import SeriesSliderTopTen from './SeriesSliderTopTen';
 
 const Home = () => {
 
@@ -23,6 +25,26 @@ const Home = () => {
     "get", // method
     "movies"
   );
+  const {
+    isLoading:topMoviesIsLoading,
+    isFetching:topMoviesIsFetching,
+    error:topMoviesError,
+    data: topmovies,
+  } = useQueryData(
+    `/v1/top-movies`, // endpoint
+    "get", // method
+    "top-movies"
+  );
+  const {
+    isLoading:topSeriesIsLoading,
+    isFetching:topSeriesIsFetching,
+    error:topSeriesError,
+    data: topseries,
+  } = useQueryData(
+    `/v1/top-series`, // endpoint
+    "get", // method
+    "top-series"
+  );
 
   const getAllKdrama = !isLoading && result?.data.filter((movie) => movie.movies_category === "kdrama")
   const getAllPinoy = !isLoading && result?.data.filter((movie) => movie.movies_category === "pinoy")
@@ -35,9 +57,11 @@ const Home = () => {
 
     <Banner/>
 
-    {/* <MovieSlider title="Top in the Philippines"/>
-    <MovieSlider title="Top Movie"/>
-    <MovieSlider title="Top Series"/> */}
+
+
+
+    {topMoviesIsLoading ? <SpinnerTable/> : <MovieSliderTopTen title="Top Movies" isTopTen={true} category={topmovies}/>}
+    {topSeriesIsLoading ? <SpinnerTable/> : <SeriesSliderTopTen title="Top Series" isTopTen={true} category={topseries}/>}
 
     {isLoading ? <SpinnerTable/> : <MovieSlider title="Korean Drama" isTopTen={false} category={getAllKdrama}/>}
     {isLoading ? <SpinnerTable/> : <MovieSlider title="Pinoy Drama" isTopTen={false} category={getAllPinoy}/>}

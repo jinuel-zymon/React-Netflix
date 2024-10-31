@@ -17,8 +17,16 @@ RewriteRule ^movies/([0-9]+)$ controllers/developer/movies/movies.php?moviesid=$
 RewriteRule ^movies/active/([0-9]+)$ controllers/developer/movies/active.php?moviesid=$1 [L]
 
 ### PRODUCT ###
-RewriteRule ^topmovies$ controllers/developer/top-movies/top-movies.php [L]
-RewriteRule ^topmovies/([0-9]+)$ controllers/developer/top-movies/top-movies.php?topmoviesid=$1 [L]
-RewriteRule ^topmovies/active/([0-9]+)$ controllers/developer/top-movies/active.php?topmoviesid=$1 [L]
+RewriteRule ^top-movies$ controllers/developer/top-movies/top-movies.php [L]
+RewriteRule ^top-movies/([0-9]+)$ controllers/developer/top-movies/top-movies.php?topmoviesid=$1 [L]
+RewriteRule ^top-movies/active/([0-9]+)$ controllers/developer/top-movies/active.php?topmoviesid=$1 [L]
 
-  
+### PRODUCT ###
+RewriteRule ^top-series$ controllers/developer/top-series/top-series.php [L]
+RewriteRule ^top-series/([0-9]+)$ controllers/developer/top-series/top-series.php?topseriesid=$1 [L]
+RewriteRule ^top-series/active/([0-9]+)$ controllers/developer/top-series/active.php?topseriesid=$1 [L]
+
+### PRODUCT ###
+RewriteRule ^genre$ controllers/developer/settings/genre/genre.php [L]
+RewriteRule ^genre/([0-9]+)$ controllers/developer/settings/genre/genre.php?genreid=$1 [L]
+RewriteRule ^genre/active/([0-9]+)$ controllers/developer/settings/genre/active.php?genreid=$1 [L]

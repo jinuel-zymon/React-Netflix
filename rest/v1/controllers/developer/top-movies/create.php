@@ -18,7 +18,7 @@ $topmovies->topmovies_duration = checkIndex($data, "topmovies_duration");
 $topmovies->topmovies_summary = checkIndex($data, "topmovies_summary");
 $topmovies->topmovies_cast = checkIndex($data, "topmovies_cast");
 $topmovies->topmovies_image = checkIndex($data, "topmovies_image");
-$topmovies->topmovies_category = checkIndex($data, "topmovies_category");
+$topmovies->topmovies_ranking = checkIndex($data, "topmovies_ranking");
 
 
 

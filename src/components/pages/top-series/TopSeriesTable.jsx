@@ -20,10 +20,11 @@ import ModalDelete from "@/components/partials/modals/ModalDelete";
 import ModalConfirm from "@/components/partials/modals/ModalConfirm";
 import ToastSuccess from "@/components/partials/ToastSuccess";
 import ModalValidate from "@/components/partials/modals/ModalValidate";
-import TopMoviesModalAdd from "./TopMoviesModalAdd";
-import MoviesModalView from "../movies/MoviesModalView";
 
-const TopMoviesTable = () => {
+import MoviesModalView from "../movies/MoviesModalView";
+import TopSeriesModalAdd from "./TopSeriesModalAdd";
+
+const TopSeriesTable = () => {
   const [isConfirm, setIsConfirm] = React.useState(false); //Show/Hide of modalConfirm
   const [isDelete, setIsDelete] = React.useState(false); //Show/Hide of modalDelete
   const [isSuccess, setIsSuccess] = React.useState(false); //Show/Hide of toastSuccess
@@ -44,9 +45,9 @@ const TopMoviesTable = () => {
     error,
     data: result,
   } = useQueryData(
-    `/v1/top-movies`, // endpoint
+    `/v1/top-series`, // endpoint
     "get", // method
-    "top-movies"
+    "top-series"
   );
 
   const handleAdd = () => {
@@ -66,12 +67,12 @@ const TopMoviesTable = () => {
   const handleArchive = (item) => {
     setIsConfirm(true);
     setIsActive(0);
-    setId(item.topmovies_aid);
+    setId(item.topseries_aid);
   };
   const handleRestore = (item) => {
     setIsConfirm(true);
     setIsActive(1);
-    setId(item.topmovies_aid);
+    setId(item.topseries_aid);
   };
 
   const handleView = (item) => {
@@ -140,14 +141,14 @@ const TopMoviesTable = () => {
                 return (
                   <tr key={key}>
                     <td>{counter}.</td>
-                    <td>{item.topmovies_title}</td>
-                    <td>{item.topmovies_year}</td>
+                    <td>{item.topseries_title}</td>
+                    <td>{item.topseries_year}</td>
                     <td>
-                      <Pill isActive={item.topmovies_is_active} />
+                      <Pill isActive={item.topseries_is_active} />
                     </td>
                     <td>
                       <ul className='table-action'>
-                        {item.topmovies_is_active ? (
+                        {item.topseries_is_active ? (
                           <>
                             <li>
                               <button
@@ -207,8 +208,8 @@ const TopMoviesTable = () => {
       {isConfirm && (
         <ModalConfirm
           setIsConfirm={setIsConfirm}
-          queryKey='top-movies'
-          mysqlApiArchive={`/v1/top-movies/active/${id}`}
+          queryKey='top-series'
+          mysqlApiArchive={`/v1/top-series/active/${id}`}
           active={isActive}
           setIsSuccess={setIsSuccess}
         />
@@ -216,14 +217,14 @@ const TopMoviesTable = () => {
       {isDelete && (
         <ModalDelete
           setIsDelete={setIsDelete}
-          mysqlApiDelete={`/v1/top-movies/${id}`}
-          queryKey='top-movies'
+          mysqlApiDelete={`/v1/top-series/${id}`}
+          queryKey='top-series'
           setIsSuccess={setIsSuccess}
         />
       )}
 
       {isAdd && (
-        <TopMoviesModalAdd
+        <TopSeriesModalAdd
           setIsAdd={setIsAdd}
           setIsSuccess={setIsSuccess}
           itemEdit={itemEdit}
@@ -238,4 +239,4 @@ const TopMoviesTable = () => {
   );
 };
 
-export default TopMoviesTable;
+export default TopSeriesTable;

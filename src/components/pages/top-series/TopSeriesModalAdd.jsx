@@ -15,19 +15,19 @@ import { ImagePlusIcon, Upload, X } from "lucide-react";
 import React from "react";
 import * as Yup from "Yup";
 
-const TopMoviesModalAdd = ({ setIsAdd, setIsSuccess, itemEdit, setIsValidate, setMessage }) => {
+const TopSeriesModalAdd = ({ setIsAdd, setIsSuccess, itemEdit, setIsValidate, setMessage }) => {
   const queryClient = useQueryClient();
   const mutation = useMutation({
     mutationFn: (values) =>
       queryData(
-        itemEdit ? `/v1/top-movies/${itemEdit.topmovies_aid}` : `/v1/top-movies`,
+        itemEdit ? `/v1/top-series/${itemEdit.topseries_aid}` : `/v1/top-series`,
         itemEdit ? "put" : "post",
         values
       ),
     onSuccess: (data) => {
       // Invalidate and refetch
       queryClient.invalidateQueries({
-        queryKey: ["top-movies"],
+        queryKey: ["top-series"],
       });
 
       // show error box
@@ -50,26 +50,26 @@ const TopMoviesModalAdd = ({ setIsAdd, setIsSuccess, itemEdit, setIsValidate, se
     useUploadPhoto("/v1/upload-photo");
 
   const initVal = {
-    topmovies_title: itemEdit ? itemEdit.topmovies_title : "",
-    topmovies_year: itemEdit ? itemEdit.topmovies_year : "",
-    topmovies_genre: itemEdit ? itemEdit.topmovies_genre : "",
-    topmovies_rating: itemEdit ? itemEdit.topmovies_rating : "",
-    topmovies_duration: itemEdit ? itemEdit.topmovies_duration : "",
-    topmovies_summary: itemEdit ? itemEdit.topmovies_summary : "",
-    topmovies_cast: itemEdit ? itemEdit.topmovies_cast : "",
-    topmovies_ranking: itemEdit ? itemEdit.topmovies_ranking : "",
-    topmovies_title_old: itemEdit ? itemEdit.topmovies_title : "",
+    topseries_title: itemEdit ? itemEdit.topseries_title : "",
+    topseries_year: itemEdit ? itemEdit.topseries_year : "",
+    topseries_genre: itemEdit ? itemEdit.topseries_genre : "",
+    topseries_rating: itemEdit ? itemEdit.topseries_rating : "",
+    topseries_duration: itemEdit ? itemEdit.topseries_duration : "",
+    topseries_summary: itemEdit ? itemEdit.topseries_summary : "",
+    topseries_cast: itemEdit ? itemEdit.topseries_cast : "",
+    topseries_ranking: itemEdit ? itemEdit.topseries_ranking : "",
+    topseries_title_old: itemEdit ? itemEdit.topseries_title : "",
   };
 
   const yupSchema = Yup.object({
-    topmovies_title: Yup.string().required("Required"),
-    topmovies_year: Yup.string().required("Required"),
-    topmovies_genre: Yup.string().required("Required"),
-    topmovies_rating: Yup.string().required("Required"),
-    topmovies_duration: Yup.string().required("Required"),
-    topmovies_summary: Yup.string().required("Required"),
-    topmovies_cast: Yup.string().required("Required"),
-    topmovies_ranking: Yup.string().required("Required"),
+    topseries_title: Yup.string().required("Required"),
+    topseries_year: Yup.string().required("Required"),
+    topseries_genre: Yup.string().required("Required"),
+    topseries_rating: Yup.string().required("Required"),
+    topseries_duration: Yup.string().required("Required"),
+    topseries_summary: Yup.string().required("Required"),
+    topseries_cast: Yup.string().required("Required"),
+    topseries_ranking: Yup.string().required("Required"),
   });
 
   return (
@@ -81,13 +81,13 @@ const TopMoviesModalAdd = ({ setIsAdd, setIsSuccess, itemEdit, setIsValidate, se
           uploadPhoto();
           mutation.mutate({
             ...values,
-            topmovies_image:
-              (itemEdit?.topmovies_image === "" && photo) ||
+            topseries_image:
+              (itemEdit?.topseries_image === "" && photo) ||
               (!photo && "") ||
               (photo === undefined && "") ||
-              (photo && itemEdit?.topmovies_image !== photo?.name)
+              (photo && itemEdit?.topseries_image !== photo?.name)
                 ? photo?.name || ""
-                : itemEdit?.topmovies_image || "",
+                : itemEdit?.topseries_image || "",
           });
         }}
       >
@@ -96,7 +96,7 @@ const TopMoviesModalAdd = ({ setIsAdd, setIsSuccess, itemEdit, setIsValidate, se
             <Form>
               <div className='modal-main absolute top-0 right-0 h-screen w-[320px] bg-secondary grid grid-row-[auto,_1fr,_auto]'>
                 <div className='modal-header p-3 px-4 pb-0 flex justify-between items-center'>
-                  <h3 className='mb-0'>Add Movie</h3>
+                  <h3 className='mb-0'>Add Series</h3>
                   <button onClick={handleClose}>
                     <X />
                   </button>
@@ -120,7 +120,7 @@ const TopMoviesModalAdd = ({ setIsAdd, setIsSuccess, itemEdit, setIsValidate, se
                         src={
                           photo
                             ? URL.createObjectURL(photo) // preview
-                            : devImgPath + "/" + itemEdit?.topmovies_image // check db
+                            : devImgPath + "/" + itemEdit?.topseries_image // check db
                         }
                         alt='employee photo'
                         className={`group-hover:opacity-30 duration-200 relative object-cover h-full w-full  m-auto ${
@@ -149,7 +149,7 @@ const TopMoviesModalAdd = ({ setIsAdd, setIsSuccess, itemEdit, setIsValidate, se
                     <InputText
                       label='Title'
                       type='text'
-                      name='topmovies_title'
+                      name='topseries_title'
                       disabled={mutation.isPending}
                     />
                   </div>
@@ -157,7 +157,7 @@ const TopMoviesModalAdd = ({ setIsAdd, setIsSuccess, itemEdit, setIsValidate, se
                     <InputText
                       label='Year'
                       type='text'
-                      name='topmovies_year'
+                      name='topseries_year'
                       disabled={mutation.isPending}
                     />
                   </div>
@@ -165,7 +165,7 @@ const TopMoviesModalAdd = ({ setIsAdd, setIsSuccess, itemEdit, setIsValidate, se
                     <InputText
                       label='Genre'
                       type='text'
-                      name='topmovies_genre'
+                      name='topseries_genre'
                       disabled={mutation.isPending}
                     />
                   </div>
@@ -173,7 +173,7 @@ const TopMoviesModalAdd = ({ setIsAdd, setIsSuccess, itemEdit, setIsValidate, se
                     <InputText
                       label='Rating'
                       type='text'
-                      name='topmovies_rating'
+                      name='topseries_rating'
                       disabled={mutation.isPending}
                     />
                   </div>
@@ -181,7 +181,7 @@ const TopMoviesModalAdd = ({ setIsAdd, setIsSuccess, itemEdit, setIsValidate, se
                     <InputText
                       label='Duration'
                       type='text'
-                      name='topmovies_duration'
+                      name='topseries_duration'
                       disabled={mutation.isPending}
                     />
                   </div>
@@ -189,21 +189,21 @@ const TopMoviesModalAdd = ({ setIsAdd, setIsSuccess, itemEdit, setIsValidate, se
                     <InputText
                       label='Ranking'
                       type='text'
-                      name='topmovies_ranking'
+                      name='topseries_ranking'
                       disabled={mutation.isPending}
                     />
                   </div>
                   <div className='input-wrap'>
                     <InputTextArea
                       label='Summary'
-                      name='topmovies_summary'
+                      name='topseries_summary'
                       disabled={mutation.isPending}
                     />
                   </div>
                   <div className='input-wrap'>
                     <InputTextArea
                       label='Cast'
-                      name='topmovies_cast'
+                      name='topseries_cast'
                       disabled={mutation.isPending}
                     />
                   </div>
@@ -234,4 +234,4 @@ const TopMoviesModalAdd = ({ setIsAdd, setIsSuccess, itemEdit, setIsValidate, se
   );
 };
 
-export default TopMoviesModalAdd;
+export default TopSeriesModalAdd;

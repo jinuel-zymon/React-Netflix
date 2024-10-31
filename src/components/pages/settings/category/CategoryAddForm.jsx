@@ -1,7 +1,7 @@
 import SpinnerButton from '@/components/partials/spinners/SpinnerButton'
 import React from 'react'
 
-const CategoryAddForm = ({setIsAdd}) => {
+const CategoryAddForm = ({setIsAdd, itemEdit}) => {
   return (
     <div className='my-3'>
       <form action="" className='max-w-[250px]'>

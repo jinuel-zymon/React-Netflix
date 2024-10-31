@@ -17,6 +17,8 @@ const Navigation = ({menu}) => {
         <li><Link to="/admin/movies" className={`${menu === "movies" ? "active" : ""} nav-link`}><Clapperboard size={16}/>Movies</Link></li>
 
         <li><Link to="/admin/top-movies" className={`${menu === "top-movies" ? "active" : ""} nav-link`}><Star size={16}/>Top Movies</Link></li>
+
+        <li><Link to="/admin/top-series" className={`${menu === "top-series" ? "active" : ""} nav-link`}><Star size={16}/>Top Series</Link></li>
       </ul>
     </nav>
 
