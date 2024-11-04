@@ -10,13 +10,11 @@ import ModalConfirm from "@/components/partials/modals/ModalConfirm";
 import ModalDelete from "@/components/partials/modals/ModalDelete";
 import ToastSuccess from "@/components/partials/ToastSuccess";
 import ModalValidate from "@/components/partials/modals/ModalValidate";
+import { StoreContext } from "@/components/store/storeContext";
+import { setIsAdd, setIsConfirm, setIsDelete } from "@/components/store/storeAction";
 
-const GenreTable = ({ isAdd, setIsAdd, setItemEdit }) => {
-  const [isConfirm, setIsConfirm] = React.useState(false); //Show/Hide nang modalConfirm
-  const [isDelete, setIsDelete] = React.useState(false); //Show/Hide nang modalDelete
-  const [isSuccess, setIsSuccess] = React.useState(false); //Show/Hide nang toastSuccess
-  const [isValidate, setIsValidate] = React.useState(false);
-  const [message, setMessage] = React.useState("");
+const GenreTable = ({setItemEdit }) => {
+  const {store, dispatch} = React.useContext(StoreContext)
   const [id, setId] = React.useState(null);
   const [isActive, setIsActive] = React.useState(0);
 
@@ -33,21 +31,22 @@ const GenreTable = ({ isAdd, setIsAdd, setItemEdit }) => {
   );
 
   const handleEdit = (item) => {
-    setIsAdd(true);
+    dispatch(setIsAdd(true));
     setItemEdit(item);
   };
 
-  const handleDelete = () => {
-    setIsDelete(true);
+  const handleDelete = (item) => {
+    dispatch(setIsDelete(true));
+    setId(item.genre_aid);
   };
 
   const handleArchive = (item) => {
-    setIsConfirm(true);
+    dispatch(setIsConfirm(true));
     setIsActive(0);
     setId(item.genre_aid);
   };
   const handleRestore = (item) => {
-    setIsConfirm(true);
+    dispatch(setIsConfirm(true));
     setIsActive(1);
     setId(item.genre_aid);
   };
@@ -56,7 +55,7 @@ const GenreTable = ({ isAdd, setIsAdd, setItemEdit }) => {
     <>
       <div
         className={`table_wrapper bg-primary p-4 mt-5 rounded-md ${
-          isAdd ? "opacity-40 pointer-events-none " : ""
+          store.isAdd ? "opacity-40 pointer-events-none " : ""
         }`}
       >
         {!isLoading || (isFetching && <SpinnerTable />)}
@@ -129,7 +128,7 @@ const GenreTable = ({ isAdd, setIsAdd, setItemEdit }) => {
                           <li>
                             <button
                               data-tooltip='Delete'
-                              onClick={() => handleDelete()}
+                              onClick={() => handleDelete(item)}
                             >
                               <Trash size={15} />
                             </button>
@@ -145,27 +144,25 @@ const GenreTable = ({ isAdd, setIsAdd, setItemEdit }) => {
         </table>
       </div>
 
-      {isConfirm && (
+      {store.isConfirm && (
         <ModalConfirm
-          setIsConfirm={setIsConfirm}
           queryKey='genre'
           mysqlApiArchive={`/v1/genre/active/${id}`}
           active={isActive}
-          setIsSuccess={setIsSuccess}
         />
       )}
-      {isDelete && (
+      {store.isDelete && (
         <ModalDelete
-          setIsDelete={setIsDelete}
+
           mysqlApiDelete={`/v1/genre/${id}`}
           queryKey='genre'
-          setIsSuccess={setIsSuccess}
+
         />
       )}
 
-      {isSuccess && <ToastSuccess setIsSuccess={setIsSuccess} />}
-      {isValidate && (
-        <ModalValidate setIsValidate={setIsValidate} message={message} />
+      {store.success && <ToastSuccess/>}
+      {store.validate && (
+        <ModalValidate />
       )}
     </>
   );

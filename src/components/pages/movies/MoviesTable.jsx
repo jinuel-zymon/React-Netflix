@@ -20,15 +20,12 @@ import ModalDelete from "@/components/partials/modals/ModalDelete";
 import ModalConfirm from "@/components/partials/modals/ModalConfirm";
 import ToastSuccess from "@/components/partials/ToastSuccess";
 import ModalValidate from "@/components/partials/modals/ModalValidate";
+import { StoreContext } from "@/components/store/storeContext";
+import { setIsAdd, setIsConfirm, setIsDelete } from "@/components/store/storeAction";
 
 const MoviesTable = () => {
-  const [isConfirm, setIsConfirm] = React.useState(false); //Show/Hide of modalConfirm
-  const [isDelete, setIsDelete] = React.useState(false); //Show/Hide of modalDelete
-  const [isSuccess, setIsSuccess] = React.useState(false); //Show/Hide of toastSuccess
-  const [isAdd, setIsAdd] = React.useState(false); //Show/Hide of modalAdd
+  const { store, dispatch } = React.useContext(StoreContext);
   const [isView, setIsView] = React.useState(false); //Show/Hide of modalView
-  const [isValidate, setIsValidate] = React.useState(false);
-  const [message, setMessage] = React.useState("");
 
   const [id, setId] = React.useState(null);
   const [itemEdit, setItemEdit] = React.useState(null);
@@ -48,7 +45,7 @@ const MoviesTable = () => {
   );
 
   const handleAdd = () => {
-    setIsAdd(true);
+    dispatch(setIsAdd(true));
     setItemEdit(null);
   };
 
@@ -57,17 +54,18 @@ const MoviesTable = () => {
     setItemEdit(item);
   };
 
-  const handleDelete = () => {
-    setIsDelete(true);
+  const handleDelete = (item) => {
+    dispatch(setIsDelete(true));
+    setId(item.movies_aid);
   };
 
   const handleArchive = (item) => {
-    setIsConfirm(true);
+    dispatch(setIsConfirm(true));
     setIsActive(0);
     setId(item.movies_aid);
   };
   const handleRestore = (item) => {
-    setIsConfirm(true);
+    dispatch(setIsConfirm(true));
     setIsActive(1);
     setId(item.movies_aid);
   };
@@ -185,7 +183,7 @@ const MoviesTable = () => {
                             <li>
                               <button
                                 data-tooltip='Delete'
-                                onClick={() => handleDelete()}
+                                onClick={() => handleDelete(item)}
                               >
                                 <Trash size={15} />
                               </button>
@@ -202,36 +200,26 @@ const MoviesTable = () => {
         </div>
       </div>
 
-      {isConfirm && (
+      {store.isConfirm && (
         <ModalConfirm
-          setIsConfirm={setIsConfirm}
           queryKey='movies'
           mysqlApiArchive={`/v1/movies/active/${id}`}
           active={isActive}
-          setIsSuccess={setIsSuccess}
+
         />
       )}
-      {isDelete && (
+      {store.isDelete && (
         <ModalDelete
-          setIsDelete={setIsDelete}
           mysqlApiDelete={`/v1/movies/${id}`}
           queryKey='movies'
-          setIsSuccess={setIsSuccess}
+
         />
       )}
 
-      {isAdd && (
-        <MoviesModalAdd
-          setIsAdd={setIsAdd}
-          setIsSuccess={setIsSuccess}
-          itemEdit={itemEdit}
-          setIsValidate={setIsValidate}
-          setMessage={setMessage}
-        />
-      )}
+      {store.isAdd && (<MoviesModalAdd itemEdit={itemEdit} />)}
       {isView && <MoviesModalView itemEdit={itemEdit} setIsView={setIsView} />}
-      {isSuccess && <ToastSuccess setIsSuccess={setIsSuccess} />}
-      {isValidate && <ModalValidate setIsValidate={setIsValidate} message={message}/>}
+      {store.success && <ToastSuccess />}
+      {store.validate && (<ModalValidate />)}
     </>
   );
 };

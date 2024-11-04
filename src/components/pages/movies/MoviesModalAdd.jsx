@@ -1,6 +1,8 @@
+import useQueryData from "@/components/custom-hook/useQueryData";
 import useUploadPhoto from "@/components/custom-hook/useUploadPhoto";
 import {
   InputPhotoUpload,
+  InputSelect,
   InputText,
   InputTextArea,
 } from "@/components/helpers/FormInputs";
@@ -9,13 +11,16 @@ import { queryData } from "@/components/helpers/queryData";
 import ModalWrapper from "@/components/partials/modals/ModalWrapper";
 import SpinnerButton from "@/components/partials/spinners/SpinnerButton";
 import ToastSuccess from "@/components/partials/ToastSuccess";
+import { setIsAdd, setMessage, setSuccess, setValidate } from "@/components/store/storeAction";
+import { StoreContext } from "@/components/store/storeContext";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Form, Formik } from "formik";
 import { ImagePlusIcon, Upload, X } from "lucide-react";
 import React from "react";
 import * as Yup from "Yup";
 
-const MoviesModalAdd = ({ setIsAdd, setIsSuccess, itemEdit, setIsValidate, setMessage }) => {
+const MoviesModalAdd = ({ itemEdit }) => {
+  const {dispatch} = React.useContext(StoreContext)
   const queryClient = useQueryClient();
   const mutation = useMutation({
     mutationFn: (values) =>
@@ -32,19 +37,51 @@ const MoviesModalAdd = ({ setIsAdd, setIsSuccess, itemEdit, setIsValidate, setMe
 
       // show error box
       if (data.success) {
-        setIsAdd(false);
-        setIsSuccess(true);
+        dispatch(setIsAdd(false));
+        dispatch(setSuccess(true));
       } else {
-        setIsValidate(true)
-        setMessage(data.error)
-        // dispatch(setSuccess(true));
-        // dispatch(setMessage(`Record Successfully updated.`));
-        // dispatch(setIsAdd(false));
+        dispatch(setValidate(true))
+        dispatch(setMessage(data.error))
+
       }
     },
   });
 
-  const handleClose = () => setIsAdd(false);
+
+  const {
+    isLoading:loadingCategory,
+    isFetching:fetchingCategory,
+    error:errorCategory,
+    data: category,
+  } = useQueryData(
+    `/v1/category`, // endpoint
+    "get", // method
+    "category"
+  );
+
+  const {
+    isLoading:loadingRating,
+    isFetching:fetchingRating,
+    error:errorRating,
+    data: ratings,
+  } = useQueryData(
+    `/v1/ratings`, // endpoint
+    "get", // method
+    "ratings"
+  );
+
+  const {
+    isLoading:loadingGenre,
+    isFetching:fetchingGenre,
+    error:errorGenre,
+    data: genre,
+  } = useQueryData(
+    `/v1/genre`, // endpoint
+    "get", // method
+    "genre"
+  );
+
+  const handleClose = () => dispatch(setIsAdd(false));
 
   const { uploadPhoto, handleChangePhoto, photo } =
     useUploadPhoto("/v1/upload-photo");
@@ -161,22 +198,136 @@ const MoviesModalAdd = ({ setIsAdd, setIsSuccess, itemEdit, setIsValidate, setMe
                       disabled={mutation.isPending}
                     />
                   </div>
+
                   <div className='input-wrap'>
-                    <InputText
-                      label='Genre'
-                      type='text'
-                      name='movies_genre'
-                      disabled={mutation.isPending}
-                    />
+                  <InputSelect
+                        label="Category"
+                        name="movies_category"
+                        disabled={mutation.isLoading || loadingCategory}
+                      >
+                        {loadingCategory ? (
+                          <option value="" hidden>
+                            Loading...
+                          </option>
+                        ) : errorCategory ? (
+                          <option value="" disabled>
+                            Error
+                          </option>
+                        ) : (
+                          <optgroup label="Select Category">
+                            <option value="" hidden></option>
+                            {category?.data.length > 0 ? (
+                              <>
+                                {category?.data.map((cItem, key) => {
+                                  return (
+                                    cItem.category_is_active === 1 
+                                       && (
+                                      <option
+                                        value={cItem.category_title}
+                                        key={key}
+                                      >
+                                        {cItem.category_title}
+                                      </option>
+                                    )
+                                  )
+                                })}
+                              </>
+                            ) : (
+                              <option value="" disabled>
+                                No data
+                              </option>
+                            )}
+                          </optgroup>
+                        )}
+                      </InputSelect>
                   </div>
+
                   <div className='input-wrap'>
-                    <InputText
-                      label='Rating'
-                      type='text'
-                      name='movies_rating'
-                      disabled={mutation.isPending}
-                    />
+                  <InputSelect
+                        label="Rating"
+                        name="movies_rating"
+                        disabled={mutation.isLoading || loadingRating}
+                      >
+                        {loadingRating ? (
+                          <option value="" hidden>
+                            Loading...
+                          </option>
+                        ) : errorRating ? (
+                          <option value="" disabled>
+                            Error
+                          </option>
+                        ) : (
+                          <optgroup label="Select Rating">
+                            <option value="" hidden></option>
+                            {ratings?.data.length > 0 ? (
+                              <>
+                                {ratings?.data.map((cItem, key) => {
+                                  return (
+                                    cItem.ratings_is_active === 1 
+                                       && (
+                                      <option
+                                        value={cItem.ratings_title}
+                                        key={key}
+                                      >
+                                        {cItem.ratings_title}
+                                      </option>
+                                    )
+                                  )
+                                })}
+                              </>
+                            ) : (
+                              <option value="" disabled>
+                                No data
+                              </option>
+                            )}
+                          </optgroup>
+                        )}
+                      </InputSelect>
                   </div>
+
+                  <div className='input-wrap'>
+                  <InputSelect
+                        label="Genre"
+                        name="movies_genre"
+                        disabled={mutation.isLoading || loadingGenre}
+                      >
+                        {loadingGenre ? (
+                          <option value="" hidden>
+                            Loading...
+                          </option>
+                        ) : errorGenre ? (
+                          <option value="" disabled>
+                            Error
+                          </option>
+                        ) : (
+                          <optgroup label="Select Genre">
+                            <option value="" hidden></option>
+                            {genre?.data.length > 0 ? (
+                              <>
+                                {genre?.data.map((cItem, key) => {
+                                  return (
+                                    cItem.genre_is_active === 1 
+                                       && (
+                                      <option
+                                        value={cItem.genre_title}
+                                        key={key}
+                                      >
+                                        {cItem.genre_title}
+                                      </option>
+                                    )
+                                  )
+                                })}
+                              </>
+                            ) : (
+                              <option value="" disabled>
+                                No data
+                              </option>
+                            )}
+                          </optgroup>
+                        )}
+                      </InputSelect>
+                  </div>
+
                   <div className='input-wrap'>
                     <InputText
                       label='Duration'
@@ -185,14 +336,7 @@ const MoviesModalAdd = ({ setIsAdd, setIsSuccess, itemEdit, setIsValidate, setMe
                       disabled={mutation.isPending}
                     />
                   </div>
-                  <div className='input-wrap'>
-                    <InputText
-                      label='Category'
-                      type='text'
-                      name='movies_category'
-                      disabled={mutation.isPending}
-                    />
-                  </div>
+
                   <div className='input-wrap'>
                     <InputTextArea
                       label='Summary'

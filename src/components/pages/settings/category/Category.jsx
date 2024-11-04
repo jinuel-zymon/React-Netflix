@@ -1,25 +1,26 @@
 import { Plus } from 'lucide-react'
 import React from 'react'
-import CategoryTable from './CategoryTable'
-import CategoryAddForm from './CategoryAddForm'
+import CategoryAddForm from './CategoryAddForm';
+import CategoryTable from './CategoryTable';
+import { StoreContext } from '@/components/store/storeContext';
+import { setIsAdd } from '@/components/store/storeAction';
+
 
 const Category = () => {
-  const [isAdd, setIsAdd] = React.useState(false);
+ const {store, dispatch} = React.useContext(StoreContext)
   const [itemEdit, setItemEdit] = React.useState(null)
 
   const handleAdd = () => {
-    setIsAdd(true)
+    dispatch(setIsAdd(true))
     setItemEdit(null)
   }
-
-
   return (
     <section className='p-4'>
         <button className='btn btn-accent' onClick={handleAdd}><Plus/> Add New</button>
         
-        {isAdd && <CategoryAddForm setIsAdd={setIsAdd} itemEdit={itemEdit}/>}
+        {store.isAdd && <CategoryAddForm itemEdit={itemEdit}/>}
         
-        <CategoryTable isAdd={isAdd}/>
+        <CategoryTable setItemEdit={setItemEdit}/>
 
     </section>
   )

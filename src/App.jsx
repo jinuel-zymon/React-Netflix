@@ -7,12 +7,14 @@ import TopMovies from "./components/pages/top-movies/TopMovies";
 import Home from "./components/pages/website/Home";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import TopSeries from "./components/pages/top-series/TopSeries";
+import { StoreProvider } from "./components/store/storeContext";
 
 const App = () => {
   const queryClient = new QueryClient();
 
   return (
     <QueryClientProvider client={queryClient}>
+      <StoreProvider>
       <Router>
         <Routes>
           <Route path='/admin/movies' element={<Movies />} />
@@ -23,6 +25,7 @@ const App = () => {
           <Route path='/home' element={<Home />} />
         </Routes>
       </Router>
+      </StoreProvider>
     </QueryClientProvider>
   );
 };

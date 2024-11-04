@@ -1,8 +1,15 @@
-import { queryData } from '@/components/helpers/queryData';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import React from 'react'
+import { InputText } from "@/components/helpers/FormInputs";
+import { queryData } from "@/components/helpers/queryData";
+import SpinnerButton from "@/components/partials/spinners/SpinnerButton";
+import { setIsAdd, setMessage, setSuccess, setValidate } from "@/components/store/storeAction";
+import { StoreContext } from "@/components/store/storeContext";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { Form, Formik } from "formik";
+import React from "react";
+import * as Yup from "Yup";
 
-const GenreAddForm = ({setIsAdd, setIsSuccess, itemEdit, setIsValidate, setMessage }) => {
+const GenreAddForm = ({itemEdit}) => {
+  const {dispatch} = React.useContext(StoreContext)
   const queryClient = useQueryClient();
   const mutation = useMutation({
     mutationFn: (values) =>
@@ -19,11 +26,11 @@ const GenreAddForm = ({setIsAdd, setIsSuccess, itemEdit, setIsValidate, setMessa
 
       // show error box
       if (data.success) {
-        setIsAdd(false);
-        setIsSuccess(true);
+        dispatch(setIsAdd(false));
+        dispatch(setSuccess(true));
       } else {
-        setIsValidate(true)
-        setMessage(data.error)
+        dispatch(setValidate(true));
+        dispatch(setMessage(data.error));
         // dispatch(setSuccess(true));
         // dispatch(setMessage(`Record Successfully updated.`));
         // dispatch(setIsAdd(false));
@@ -38,25 +45,49 @@ const GenreAddForm = ({setIsAdd, setIsSuccess, itemEdit, setIsValidate, setMessa
 
   const yupSchema = Yup.object({
     genre_title: Yup.string().required("Required"),
- 
   });
 
   return (
     <div className='my-3'>
-      <form action="" className='max-w-[250px]'>
-        <div className="input-wrap">
-          <label htmlFor="">Genre</label>
-          <input type="text" />
-          <span>Required</span>
-        </div>
+      <Formik
+        initialValues={initVal}
+        validationSchema={yupSchema}
+        onSubmit={async (values) => {
+          mutation.mutate(values);
+        }}
+      >
+        {(props) => {
+          return (
+            <Form className='max-w-[250px]'>
+              <div className='input-wrap'>
+                <InputText
+                  label='Genre'
+                  type='text'
+                  name='genre_title'
+                  disabled={mutation.isPending}
+                />
+              </div>
 
-        <div className='settings-action flex justify-end gap-3 my-3'>
-          <button className='btn btn-accent w-[80px] flex justify-center'>Add</button>
-          <button className='btn btn-cancel w-[80px] flex justify-center'onClick={()=> setIsAdd(false)}>Cancel</button>
-        </div>
-      </form>
+              <div className='settings-action flex justify-end gap-3 my-3'>
+                <button
+                  className='btn btn-accent w-[80px] flex justify-center'
+                  type='submit'
+                >
+                  {mutation.isPending ? <SpinnerButton /> : "Save"} Add
+                </button>
+                <button
+                  className='btn btn-cancel w-[80px] flex justify-center'
+                  onClick={() => dispatch(setIsAdd(false))}
+                >
+                  Cancel
+                </button>
+              </div>
+            </Form>
+          );
+        }}
+      </Formik>
     </div>
-  )
-}
+  );
+};
 
-export default GenreAddForm
+export default GenreAddForm;

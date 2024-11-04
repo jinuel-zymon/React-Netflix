@@ -183,11 +183,15 @@
   .input-wrap label {
     @apply text-sm
   }
-  .input-wrap input, .input-wrap textarea {
+  .input-wrap input, 
+  .input-wrap textarea,
+  .input-wrap select{
     @apply px-2 py-[4.5px] border-[2px] border-transparent rounded-md outline-none text-sm text-black focus:border-success w-full
   }
 
-  .input-wrap input:disabled, .input-wrap textarea:disabled {
+  .input-wrap input:disabled, 
+  .input-wrap textarea:disabled,
+  .input-wrap select:disabled {
     @apply pointer-events-none opacity-40
   }
 

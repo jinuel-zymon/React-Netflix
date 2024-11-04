@@ -2,23 +2,25 @@ import { Plus } from 'lucide-react'
 import React from 'react'
 import GenreAddForm from './GenreAddForm';
 import GenreTable from './GenreTable';
+import { StoreContext } from '@/components/store/storeContext';
+import { setIsAdd } from '@/components/store/storeAction';
 
 
 const Genre = () => {
-  const [isAdd, setIsAdd] = React.useState(false);
+  const {store, dispatch} = React.useContext(StoreContext)
   const [itemEdit, setItemEdit] = React.useState(null)
 
   const handleAdd = () => {
-    setIsAdd(true)
+    dispatch(setIsAdd(true))
     setItemEdit(null)
   }
   return (
     <section className='p-4'>
         <button className='btn btn-accent' onClick={handleAdd}><Plus/> Add New</button>
         
-        {isAdd && <GenreAddForm setIsAdd={setIsAdd} itemEdit={itemEdit}/>}
+        {store.isAdd && <GenreAddForm itemEdit={itemEdit}/>}
         
-        <GenreTable isAdd={isAdd} setIsAdd={setIsAdd} setItemEdit={setItemEdit}/>
+        <GenreTable setItemEdit={setItemEdit}/>
 
     </section>
   )
